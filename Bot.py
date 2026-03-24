@@ -233,6 +233,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(help_text)
 
 if __name__ == '__main__':
+<<<<<<< HEAD:bot.py
     import os
     
     # Get environment variables
@@ -295,3 +296,7 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"❌ Failed to start webhook: {str(e)}")
         exit(1)
+=======
+    main()
+    
+>>>>>>> ce3a3ea59fe8bdbae19b9fc436f0af6c6b5e3f8d:Bot.py
