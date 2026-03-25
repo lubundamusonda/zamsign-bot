@@ -233,31 +233,23 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(help_text)
 
 if __name__ == '__main__':
-<<<<<<< HEAD:bot.py
-    import os
-    
-    # Get environment variables
-    BOT_TOKEN = os.environ.get("8735695688:AAGtUGEyw3mmm42v8YgS87M81HRHPEsU-CI", "")
-    PORT = int(os.environ.get("PORT", "10000"))  # Render's default port
+    BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
+    PORT = int(os.environ.get("PORT", "10000"))
     RENDER_EXTERNAL_URL = os.environ.get("RENDER_EXTERNAL_URL", "")
-    
-    # Validate required variables
+
     if not BOT_TOKEN:
         print("❌ ERROR: BOT_TOKEN environment variable not set")
-        exit(1)
-    
+        raise SystemExit(1)
+
     if not RENDER_EXTERNAL_URL:
-        print("❌ ERROR: RENDER_EXTERNAL_URL not set (Render should provide this automatically)")
-        exit(1)
-    
-    # Initialize application
+        print("❌ ERROR: RENDER_EXTERNAL_URL not set")
+        raise SystemExit(1)
+
     application = Application.builder().token(BOT_TOKEN).build()
-    
-    # Add handlers
+
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
-    
-    # Conversation handler for agreement creation
+
     conv_handler = ConversationHandler(
         entry_points=[CallbackQueryHandler(button_handler, pattern='^initiate$')],
         states={
@@ -273,30 +265,24 @@ if __name__ == '__main__':
         fallbacks=[CommandHandler("cancel", cancel)],
         per_user=True
     )
-    
+
     application.add_handler(conv_handler)
     application.add_handler(CallbackQueryHandler(button_handler))
-    
-    # Construct webhook URL
-    webhook_url = f"https://{RENDER_EXTERNAL_URL}/{BOT_TOKEN}"
-    
-    print(f"✅ Starting ZamSign bot...")
+
+    webhook_url = f"{RENDER_EXTERNAL_URL.rstrip('/')}/{BOT_TOKEN}"
+
+    print("✅ Starting ZamSign bot...")
     print(f"🔧 Port: {PORT}")
     print(f"🔗 Webhook URL: {webhook_url}")
-    
-    # Start webhook
+
     try:
         application.run_webhook(
             listen="0.0.0.0",
             port=PORT,
             url_path=BOT_TOKEN,
             webhook_url=webhook_url,
-            allowed_updates=None  # Listen to all updates
+            allowed_updates=None
         )
     except Exception as e:
         print(f"❌ Failed to start webhook: {str(e)}")
-        exit(1)
-=======
-    main()
-    
->>>>>>> ce3a3ea59fe8bdbae19b9fc436f0af6c6b5e3f8d:Bot.py
+        raise SystemExit(1)
