@@ -1,5 +1,6 @@
 import logging
 import os
+import dotenv
 import asyncio
 from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -12,7 +13,7 @@ from telegram.ext import (
     CallbackQueryHandler,
     ConversationHandler
 )
-
+dotenv.load_dotenv()
 # Configure logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -233,7 +234,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(help_text)
 
 if __name__ == '__main__':
-    BOT_TOKEN = os.environ.get("8735695688:AAGtUGEyw3mmm42v8YgS87M81HRHPEsU-CI", "")
+    BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
     PORT = int(os.environ.get("PORT", "10000"))
     RENDER_EXTERNAL_URL = os.environ.get("RENDER_EXTERNAL_URL", "")
 
